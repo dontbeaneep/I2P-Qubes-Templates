@@ -28,3 +28,5 @@ cat router.txt >> /var/lib/i2p/i2p-config/router.config;
 systemctl enable i2p;
 systemctl restart i2p;
 mv /usr/share/librewolf/librewolf.cfg /usr/share/librewolf/backupconfig.cfg;
+mv ~/I2P-Qubes-Templates/librewolf.cfg /usr/share/librewolf/librewolf.cfg
+apt-get update && apt-get upgrade -y
