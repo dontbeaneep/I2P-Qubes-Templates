@@ -4,11 +4,11 @@ some config files that would generate every time you build a new I2P template, h
 each parameter manually with each new VM. Scripts are customizable to your needs.
 
 ## Installing
-#### clone the scripts and make them executable
+#### clone the scripts in an appvm and make them executable
 * git clone https://github.com/dontbeaneep/I2P-Qubes-Templates.git
 * cd I2P-Qubes-Templates
 * sudo chmod +x I2P-Debian.sh
-#### sudo mv I2P-Debian.sh to your template or wherever you are running it.
+#### qvm-copy I2P-Debian.sh to your template or wherever you are running it.
 #### edit the script in your preferred text editor
 
 ## Run
@@ -46,7 +46,7 @@ make sure the Debian block is uncommented while the Whonix block is commented ou
 template. Or, if you don't mind configuring the router.config and librewolf.cfg by hand, then comment out my examples and this 
 script will be quite a bit faster.
 
-## For Qubes specifically, for now
+## Qubes specifically, for now
 These are written specifically for Qubes templates, so they will not translate perfectly to an average VM or baremetal install
 of the equivalent distro. Changing the script just a tad for your specific install shouldn't be too hard, but if you are struggling,
 I will be adding a variant for the Linux users who don't virtualize.
