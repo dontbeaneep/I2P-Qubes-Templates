@@ -4,11 +4,11 @@ some config files that would generate every time you build a new I2P template, h
 each parameter manually with each new VM.
 
 ## Installing
-#### clone the scripts in an appvm and make them executable
-* git clone https://github.com/dontbeaneep/I2P-Qubes-Templates.git
-* cd I2P-Qubes-Templates
-* sudo chmod +x I2P-Debian.sh
-#### qvm-copy I2P-Debian.sh to your template or wherever you are running it.
+* #### clone the scripts in an appvm and make them executable
+* #### git clone https://github.com/dontbeaneep/I2P-Qubes-Templates.git
+* #### cd I2P-Qubes-Templates
+* #### sudo chmod +x I2P-Debian.sh
+* #### qvm-copy I2P-Debian.sh to your template or wherever you are running it.
 
 ## Run as ROOT
 * ./I2P-Debian.sh
@@ -38,8 +38,8 @@ Once Ran, these scripts will:
 
 ## One script to rule them all
 This script utilizes basic 'if-then' bash statements, allowing you to run this same script in either Debian/Ubuntu templates or Whonix WS templates. Just follow the prompted questions to select which template the script is running in. 
-#####(PS, the Debian prompt works for both Debian-11 and Ubuntu Jammy specifically. This should work universally though as Ubuntu is Debian based).
 
+####(PS, the Debian prompt works for both Debian-11 and Ubuntu Jammy specifically. This should work universally though as Ubuntu is Debian based).
 
 ## Qubes specifically, for now
 These are written specifically for Qubes templates, so they will not translate perfectly to an average VM or baremetal install
