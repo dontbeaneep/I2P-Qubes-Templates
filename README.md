@@ -1,7 +1,7 @@
 # I2P-Qubes-Templates
 All-in-one scripts for easily installing I2P with a dedicated browser for Qubes templates. Also includes the creation of 
 some config files that would generate every time you build a new I2P template, hopefully avoiding having to configure 
-each parameter manually with each new VM. Scripts are customizable to your needs.
+each parameter manually with each new VM.
 
 ## Installing
 #### clone the scripts in an appvm and make them executable
@@ -9,10 +9,11 @@ each parameter manually with each new VM. Scripts are customizable to your needs
 * cd I2P-Qubes-Templates
 * sudo chmod +x I2P-Debian.sh
 #### qvm-copy I2P-Debian.sh to your template or wherever you are running it.
-#### edit the script in your preferred text editor
 
-## Run
-./I2P-Debian.sh
+## Run as ROOT
+* ./I2P-Debian.sh
+* verify you are ROOT in the first question
+* select which template you are running the script in
 
 
 
@@ -35,16 +36,10 @@ Once Ran, these scripts will:
 * Install I2P-Java and Librewolf (a hardened firefox)
 * Configure your I2P router and Librewolf browser together so you have a dedicated browser for I2P
 
-## Customizable
-With relative ease, you'll be able to open each script in a text editor to make some necessary changes, depending on your system.
-Instead of having several scripts that are almost identical except for you to choose through, I included every option you would
-need inside of the script. The lines that look like code but has a "#" in the beginning of the line means that block of code is
-commented out (think of it as "turned off"). You can edit the script to "turn on" or "turn off" the blocks that do or do not apply
-to you. 
-For example, 'I2P-Debian.sh' works on all Debian based distros (including Debian, Whonix, Ubuntu, etc). Open the script up and 
-make sure the Debian block is uncommented while the Whonix block is commented out if you are trying to run this in a Debian-11 
-template. Or, if you don't mind configuring the router.config and librewolf.cfg by hand, then comment out my examples and this 
-script will be quite a bit faster.
+## One script to rule them all
+This script utilizes basic 'if-then' bash statements, allowing you to run this same script in either Debian/Ubuntu templates or Whonix WS templates. Just follow the prompted questions to select which template the script is running in. 
+#####(PS, the Debian prompt works for both Debian-11 and Ubuntu Jammy specifically. This should work universally though as Ubuntu is Debian based).
+
 
 ## Qubes specifically, for now
 These are written specifically for Qubes templates, so they will not translate perfectly to an average VM or baremetal install
