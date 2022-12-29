@@ -4,16 +4,18 @@ some config files that would generate every time you build a new I2P template, h
 each parameter manually with each new VM.
 
 ## Installing
-* #### clone the scripts in an appvm and make them executable
-* #### git clone https://github.com/dontbeaneep/I2P-Qubes-Templates.git
-* #### cd I2P-Qubes-Templates
-* #### sudo chmod +x I2P-Debian.sh
-* #### qvm-copy I2P-Debian.sh to your template or wherever you are running it.
+- **clone the scripts in an appvm, make them executable, and copy the script to your template
+
+### In the AppVM
+- ***git clone https://github.com/dontbeaneep/I2P-Qubes-Templates.git
+- ***cd I2P-Qubes-Templates
+- ***sudo chmod +x I2P-Debian.sh
+- ***qvm-copy I2P-Debian.sh
 
 ## Run as ROOT
-* ./I2P-Debian.sh
-* verify you are ROOT in the first question
-* select which template you are running the script in
+- ./I2P-Debian.sh
+- verify you are **ROOT** in the first question
+- select which template you are running the script in
 
 
 
@@ -31,15 +33,15 @@ if you are not Linux-saavy. That is the approach that inspired me to write these
 to do every bit of the "heavy lifting" that make you nervous about installing I2P yourself.
 
 Once Ran, these scripts will:
-* Add the correct repositories needed
-* Import the pgp keys needed for verificaiton
-* Install I2P-Java and Librewolf (a hardened firefox)
-* Configure your I2P router and Librewolf browser together so you have a dedicated browser for I2P
+- Add the correct repositories needed
+- Import the pgp keys needed for verificaiton
+- Install I2P-Java and Librewolf (a hardened firefox)
+- Configure your I2P router and Librewolf browser together so you have a dedicated browser for I2P
 
 ## One script to rule them all
 This script utilizes basic 'if-then' bash statements, allowing you to run this same script in either Debian/Ubuntu templates or Whonix WS templates. Just follow the prompted questions to select which template the script is running in. 
 
-####(PS, the Debian prompt works for both Debian-11 and Ubuntu Jammy specifically. This should work universally though as Ubuntu is Debian based).
+#### (PS, the Debian prompt works for both Debian-11 and Ubuntu Jammy specifically. This should work universally though as Ubuntu is Debian based).
 
 ## Qubes specifically, for now
 These are written specifically for Qubes templates, so they will not translate perfectly to an average VM or baremetal install
