@@ -13,7 +13,7 @@ each parameter manually with each new VM.
 - ****qvm-copy I2P-Debian.sh****
 
 ### In your Template
-- ***$ sudo mv /home/user/QubesIncoming/*/I2P-Debian.sh ~/ *** 
+- ***$ sudo mv /home/user/QubesIncoming/*/I2P-Debian.sh ~/\*** 
   * move the script that you copied over to your /home/user directory. (where /home/user/QubesIncoming/*/I2P-Debian.sh is the directory your script copied to)
 - ***$ sudo su***
   * become root
