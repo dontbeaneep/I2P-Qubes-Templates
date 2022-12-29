@@ -1,25 +1,141 @@
 #! /bin/bash
-clear
-echo -en "Hello! Make sure you are ROOT before we continue.\nAre you ROOT? (y/n): "
-read root
 
 clear
-if [ $root = 'y' ]; then
-	echo "Groooooovy"
-	sleep 1
-else
-	if [ $root = 'n' ]; then
-		{ echo "Quitting now. Try again as ROOT"
-		sleep 2
-		exit
-}
-	else
-		{ echo "Instructions unclear. Cat is in microwave..."
-		sleep 1
-		exit
-}
-	fi
-fi
+printf 'Hello! Make sure you are ROOT before we continue.\nAre you ROOT? (y/n): '
+while :; do
+	read -r root
+	case "$root" in
+		y )
+			printf 'Good, running as ROOT is essential.\n '
+			break
+			;;
+		n )
+			printf 'Quitting now. RUN AS ROOT.\n '
+			sleep 2
+			exit
+			break
+			;;
+		* )
+			printf 'Try Again\n '
+	esac
+done
+
+echo -en "When the I2P configuration prompt pops up, the default settings are best.\nBut feel free to customize it yourself if you know what you are doing...\n\n"
+sleep 5
+
+printf 'Which template is this: \nEnter 1 for Debian/Ubuntu\nEnter 2 for Whonix WS\n: '
+while :; do
+	read -r response1
+	case "$response1" in
+		1 )
+			printf 'You chose Debian.\n ';
+			break
+			;;
+		2 )
+			printf 'You chose Whonix.\n ';
+			break
+			;;
+		* )
+			printf 'Try Again\n '
+	esac
+done
+
+printf 'Do you want your Router Console preconfigured? You can always customize it later. \n(y/n): '
+while :; do
+	read -r response2
+	case "$response2" in
+		y )
+			printf 'You chose yes!\n ';
+			break
+			;;
+		n )
+			printf 'You chose no!\n '; 
+			break
+			;;
+		* )
+			printf 'Try Again\n '
+	esac
+done
+
+printf 'Running the scripts you specified...\n ';
+while :; do
+	case "$response1$response2" in 
+		1y) 
+			echo -en "Now installing I2P-Java and LibreWolf on a Debian-11 template.\n ";
+			sleep 3;
+			apt-get update;
+			curl --proxy http://127.0.0.1:8082 --tlsv1.2 https://geti2p.net/_static/i2p-archive-keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/i2p-archive-keyring.gpg > /dev/null; 
+			curl --proxy http://127.0.0.1:8082 --tlsv1.2 https://deb.librewolf.net/keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/librewolf.gpg > /dev/null;
+			echo "deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] https://deb.i2p2.de/ bullseye main" | tee /etc/apt/sources.list.d/i2p.list > /dev/null && 
+			echo "deb [arch=amd64 signed-by=/usr/share/keyrings/librewolf.gpg] http://deb.librewolf.net bullseye main" | tee /etc/apt/sources.list.d/librewolf.list > /dev/null &&
+			apt-get update; 
+			apt-get install i2p i2p-keyring librewolf -y;
+			dpkg-reconfigure i2p &&
+			echo -e "i2np.inboundBurstKBytes.bandwidth=178379 \ni2np.bandwidth.inboundBurstKBytesPerSecond=8919 \ni2np.bandwidth.inboundKBytesPerSecond=8869 \ni2np.bandwidth.outboundBurstKBytes=23301 \ni2np.bandwidth.outboundBurstKBytesPerSecond=1165 \ni2np.bandwidth.outboundKBytesPerSecond=1115 \ni2np.lastCountry=us \ni2np.udp.internalPort=18729 \ni2np.udp.port=18729 \njbigi.lastProcessor=Kaby Lake Core i3/i5/i7/64 \nrouter.firstVersion=1.9.0 \nrouter.passwordManager.migrated=true \nrouter.previousVersion=2.0.0 \nrouter.sharePercentage=80 \nrouter.startup.jetty9.migrated=true \nrouter.updateDisabled=true \nrouterconsole.country= \nrouterconsole.lang=en \nrouterconsole.newsLastNewEntry=0 \nrouterconsole.newsLastUpdated=0 \nrouterconsole.theme=dark \nrouterconsole.welcomeWizardComplete=true" | tee router.txt > /dev/null; 
+			cat router.txt >> /var/lib/i2p/i2p-config/router.config;
+			systemctl enable i2p; 
+			systemctl restart i2p;
+			apt update && 
+			apt upgrade -y; 
+			break
+			;; 
+		1n) 
+			echo -en "Now installing I2P-Java and LibreWolf on a Debian-11 template.\n " ;
+			sleep 3;
+			apt-get update;
+			curl --proxy http://127.0.0.1:8082 --tlsv1.2 https://geti2p.net/_static/i2p-archive-keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/i2p-archive-keyring.gpg > /dev/null; 
+			curl --proxy http://127.0.0.1:8082 --tlsv1.2 https://deb.librewolf.net/keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/librewolf.gpg > /dev/null;
+			echo "deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] https://deb.i2p2.de/ bullseye main" | tee /etc/apt/sources.list.d/i2p.list > /dev/null && 
+			echo "deb [arch=amd64 signed-by=/usr/share/keyrings/librewolf.gpg] http://deb.librewolf.net bullseye main" | tee /etc/apt/sources.list.d/librewolf.list > /dev/null &&
+			apt-get update; 
+			apt-get install i2p i2p-keyring librewolf -y;
+			dpkg-reconfigure i2p && 
+			systemctl enable i2p; 
+			systemctl restart i2p;
+			apt update && 
+			apt upgrade -y;
+			break 
+			;; 
+		2y) 
+			echo -en "Now installing I2P-Java and LibreWolf on a Whonix-16 WS template.\n ";
+			sleep 3;
+			scurl --proxy http://127.0.0.1:8082 --tlsv1.2 https://geti2p.net/_static/i2p-archive-keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/i2p-archive-keyring.gpg > /dev/null;
+			scurl --proxy http://127.0.0.1:8082 --tlsv1.2 https://deb.librewolf.net/keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/librewolf.gpg > /dev/null; 
+			echo "deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] tor+https://deb.i2p2.de/ bullseye main" | tee /etc/apt/sources.list.d/i2p.list > /dev/null; 
+			echo "deb [arch=amd64 signed-by=/usr/share/keyrings/librewolf.gpg] tor+http://deb.librewolf.net bullseye main" | tee /etc/apt/sources.list.d/librewolf.list > /dev/null;
+			apt-get update; 
+			apt-get install i2p i2p-keyring librewolf -y; 
+			dpkg-reconfigure i2p &&
+			systemctl enable i2p;
+			echo -e "#! /bin/bash \necho -e \"i2np.inboundBurstKBytes.bandwidth=178379 \ni2np.bandwidth.inboundBurstKBytesPerSecond=8919 \ni2np.bandwidth.inboundKBytesPerSecond=8869 \ni2np.bandwidth.outboundBurstKBytes=23301 \ni2np.bandwidth.outboundBurstKBytesPerSecond=1165 \ni2np.bandwidth.outboundKBytesPerSecond=1115 \ni2np.lastCountry=us \ni2np.udp.internalPort=18729 \ni2np.udp.port=18729 \njbigi.lastProcessor=Kaby Lake Core i3/i5/i7/64 \nrouter.firstVersion=1.9.0 \nrouter.passwordManager.migrated=true \nrouter.previousVersion=2.0.0 \nrouter.sharePercentage=80 \nrouter.startup.jetty9.migrated=true \nrouter.updateDisabled=true \nrouterconsole.country= \nrouterconsole.lang=en \nrouterconsole.newsLastNewEntry=0 \nrouterconsole.newsLastUpdated=0 \nrouterconsole.theme=dark \nrouterconsole.welcomeWizardComplete=true\" | tee router.txt > /dev/null; cat router.txt >> /var/lib/i2p/i2p-config/router.config; systemctl restart i2p" | tee /router-config.sh > /dev/null; 
+			chmod +x /router-config.sh;
+			systemctl restart i2p;
+			apt update;
+			apt upgrade -y;
+			printf 'Unfortunately, I cannot customize your Router Console until you create a new Whonix WS AppVM. Create a new AppVM, become root, and then run "bash /router-config.sh". This is a temporary workaround but it works.\n\n '
+			sleep 6
+			break
+			;; 
+		2n) 
+			echo -en "Now installing I2P-Java and LibreWolf on a Whonix-16 WS template.\n ";
+			sleep 3;
+			scurl --proxy http://127.0.0.1:8082 --tlsv1.2 https://geti2p.net/_static/i2p-archive-keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/i2p-archive-keyring.gpg > /dev/null;
+			scurl --proxy http://127.0.0.1:8082 --tlsv1.2 https://deb.librewolf.net/keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/librewolf.gpg > /dev/null; 
+			echo "deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] tor+https://deb.i2p2.de/ bullseye main" | tee /etc/apt/sources.list.d/i2p.list > /dev/null; 
+			echo "deb [arch=amd64 signed-by=/usr/share/keyrings/librewolf.gpg] tor+http://deb.librewolf.net bullseye main" | tee /etc/apt/sources.list.d/librewolf.list > /dev/null;
+			apt-get update; 
+			apt-get install i2p i2p-keyring librewolf -y; 
+			dpkg-reconfigure i2p &&
+			systemctl enable i2p;
+			systemctl restart i2p;
+			apt update;
+			apt upgrade -y;
+			break
+			;; 
+		*) 
+			printf 'Try again\n '
+	esac
+done
 
 echo -en "
 /** LIBREWOLF SETTINGS
@@ -560,92 +676,31 @@ lockPref(\"security.family_safety.mode\", 0); // disable win8.1 family safety ce
 let profile_directory;
 if (profile_directory = getenv('USERPROFILE') || getenv('HOME')) {
   defaultPref('autoadmin.global_config_url', `file://${profile_directory}/.librewolf/librewolf.overrides.cfg`);
-}" | tee /home/user/librewolf.cfg > /dev/null
+}" | tee /home/user/Documents/librewolf.cfg > /dev/null
 clear
 
-echo -en "When the I2P configuration prompt pops up, the default settings are best.\nBut feel free to customize it yourself if you know what you are doing...\n\n"
-sleep 5
-echo -en "Which template is this: \nEnter 1 for Debian/Ubuntu\nEnter 2 for Whonix WS\n: "
-read answer 
-
-if [ $answer = '1' ]; then
-	{ echo -en "Now installing I2P-Java and LibreWolf on a Debian-11 template\n"
-	sleep 3
-	apt-get update
-	curl --proxy http://127.0.0.1:8082 --tlsv1.2 https://geti2p.net/_static/i2p-archive-keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/i2p-archive-keyring.gpg > /dev/null; 
-	curl --proxy http://127.0.0.1:8082 --tlsv1.2 https://deb.librewolf.net/keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/librewolf.gpg > /dev/null;
-	echo "deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] https://deb.i2p2.de/ bullseye main" | tee /etc/apt/sources.list.d/i2p.list > /dev/null && 
-	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/librewolf.gpg] http://deb.librewolf.net bullseye main" | tee /etc/apt/sources.list.d/librewolf.list > /dev/null &&
-	apt-get update; 
-	apt-get install i2p i2p-keyring librewolf -y
-	dpkg-reconfigure i2p && 
-	systemctl enable i2p; 
-	mv /usr/share/librewolf/librewolf.cfg /usr/share/librewolf/backupconfig.cfg && 
-	mv /home/user/librewolf.cfg /usr/share/librewolf/librewolf.cfg;
-	chmod +x librewolf.cfg
-	systemctl restart i2p;
-	apt update && 
-	apt upgrade -y
-}
-else				
-	if [ $answer = '2' ]; then
-		{ echo -en "Now installing I2P-Java and LibreWolf on a Whonix-16 WS template\n"
-		sleep 3
-		scurl --proxy http://127.0.0.1:8082 --tlsv1.2 https://geti2p.net/_static/i2p-archive-keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/i2p-archive-keyring.gpg > /dev/null;
-		scurl --proxy http://127.0.0.1:8082 --tlsv1.2 https://deb.librewolf.net/keyring.gpg | gpg --dearmor | tee /usr/share/keyrings/librewolf.gpg > /dev/null; 
-		echo "deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] tor+https://deb.i2p2.de/ bullseye main" | tee /etc/apt/sources.list.d/i2p.list > /dev/null; 
-		echo "deb [arch=amd64 signed-by=/usr/share/keyrings/librewolf.gpg] tor+http://deb.librewolf.net bullseye main" | tee /etc/apt/sources.list.d/librewolf.list > /dev/null;
-		apt-get update; 
-		apt-get install i2p i2p-keyring librewolf -y; 
-		dpkg-reconfigure i2p &&
-		systemctl enable i2p;
-		mv /usr/share/librewolf/librewolf.cfg /usr/share/librewolf/backupconfig.cfg && 
-		mv /home/user/librewolf.cfg /usr/share/librewolf/librewolf.cfg;
-		chmod +x /usr/share/librewolf/librewolf.cfg
-		systemctl restart i2p
-		apt update;
-		apt upgrade -y
-}
-		else				
-			echo "y u do dis? 1 or 2 only, please"
-	fi
-fi
+printf 'Do you want a customized and hardened LibreFox config file? You can always customize the browser yourself later. (y/n): \n'
+while :; do
+	read -r librefox
+	case "$librefox" in
+		y )
+			chown user:user /home/user/Documents/librewolf.cfg;
+			chmod +x /home/user/Documents/librewolf.cfg;
+			mv /usr/share/librewolf/librewolf.cfg /usr/share/librewolf/backupconfig.cfg && 
+			mv /home/user/Documents/librewolf.cfg /usr/share/librewolf/librewolf.cfg;
+			break
+			;;
+		n )
+			printf 'Not a problem!\n '
+			rm -rf /home/user/Documents/librewolf.cfg  
+			break
+			;;
+		* )
+			printf 'Try Again\n '
+	esac
+done
 
 clear
-echo -en "Do you want me to customize your Router Console? (y/n)\n: "
-read RC
-if [ $RC = 'y' ]; then
-	{ echo "You got it!"
-	sleep 2
-	echo -e "#! /bin/bash \necho -e \"i2np.inboundBurstKBytes.bandwidth=178379 \ni2np.bandwidth.inboundBurstKBytesPerSecond=8919 \ni2np.bandwidth.inboundKBytesPerSecond=8869 \ni2np.bandwidth.outboundBurstKBytes=23301 \ni2np.bandwidth.outboundBurstKBytesPerSecond=1165 \ni2np.bandwidth.outboundKBytesPerSecond=1115 \ni2np.lastCountry=us \ni2np.udp.internalPort=18729 \ni2np.udp.port=18729 \njbigi.lastProcessor=Kaby Lake Core i3/i5/i7/64 \nrouter.firstVersion=1.9.0 \nrouter.passwordManager.migrated=true \nrouter.previousVersion=2.0.0 \nrouter.sharePercentage=80 \nrouter.startup.jetty9.migrated=true \nrouter.updateDisabled=true \nrouterconsole.country= \nrouterconsole.lang=en \nrouterconsole.newsLastNewEntry=0 \nrouterconsole.newsLastUpdated=0 \nrouterconsole.theme=dark \nrouterconsole.welcomeWizardComplete=true\" | tee router.txt > /dev/null; cat router.txt >> /var/lib/i2p/i2p-config/router.config; systemctl restart i2p" | tee /router-config.sh > /dev/null; 
-	chmod +x /router-config.sh;
-}
-else
-	if [ $RC = 'n' ]; then
-		echo -en "No problem. You can always customize it yourself. \n "
-		sleep 2
-		else
-			echo -e "Bummer, you're just going to have to customize it yourself now... \n "
-			sleep 2
-	fi
-fi
 
-clear
-echo -en "Once again, please select 1 for Debian or 2 for Whonix \n: "
-read lol
-if [ $lol = '1' ]; then
-{	echo "Thank You"
-	sleep 2
-	bash /router-config.sh
-	clear
-}
-else
-	if [ $lol = '2' ]; then
-		echo -en "Unfortunately, I cannot customize your Router Console until you create a new Whonix WS AppVM. Create a new AppVM, become root, and then run 'bash /router-config.sh'. This is a temporary workaround but it works.\n\n"
-		sleep 5
-	else
-		echo "Bummer. Couldn't read your response."
-	fi
-fi		
-echo -en "Congratulations!\nYou have just successfully:\n*installed I2P and LibreWolf\n*Generated the custom config files\n*Updated/Upgraded your template\n\nYou are 100% ready to go!\nSafely shutdown and build an AppVM (:\n"
+printf 'Congratulations!\nYou have just successfully:\n*installed I2P and LibreWolf\n*Generated the custom config files(if selected)\n*Updated/Upgraded your template\n\nYou are ready to go!\nSafely shutdown and build an AppVM (:\n '
 sleep 5
