@@ -4,18 +4,32 @@ some config files that would generate every time you build a new I2P template, h
 each parameter manually with each new VM.
 
 ## Installing
-- **clone the scripts in an appvm, make them executable, and copy the script to your template
+- ****clone the scripts in an appvm, make them executable, and copy the script to your template****
 
 ### In the AppVM
-- ***git clone https://github.com/dontbeaneep/I2P-Qubes-Templates.git
-- ***cd I2P-Qubes-Templates
-- ***sudo chmod +x I2P-Debian.sh
-- ***qvm-copy I2P-Debian.sh
+- ****git clone https://github.com/dontbeaneep/I2P-Qubes-Templates.git****
+- ****cd I2P-Qubes-Templates****
+- ****sudo chmod +x I2P-Debian.sh****
+- ****qvm-copy I2P-Debian.sh****
+
+### In your Template
+- ****$ sudo mv /home/user/QubesIncoming/*/I2P-Debian.sh ~/**** 
+  * move the script that you copied over to your /home/user directory. (where /home/user/QubesIncoming/*/I2P-Debian.sh is the directory your script copied to)
+- ****$ sudo su****
+  * become root
+- ****# bash I2P-Debian.sh****
+
+OR
+
+- ****$ sudo su
+- ****# bash /home/user/QubesIncoming/*/I2P-Debian.sh****
+  * run the script from /home/user as ****ROOT*****
+
 
 ## Run as ROOT
-- ./I2P-Debian.sh
-- verify you are **ROOT** in the first question
+- verify you are ****ROOT**** in the first question
 - select which template you are running the script in
+- You need to be root so you can create the config files and execute scripts within this script. If you want to avoid running this in ****ROOT**** then read the script and modify the directory permissions required in your template and try it out. No gurantee it will work though. 
 
 
 
